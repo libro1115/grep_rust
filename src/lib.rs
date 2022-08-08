@@ -1,5 +1,5 @@
 use std::{env, error::Error, fs::File, io::prelude::*};
-
+///オプション情報
 pub struct Config {
     pub query: String,
     pub filename: String,
@@ -24,6 +24,8 @@ impl Config {
         })
     }
 }
+/// 指定されたテキストを読み、指定されたキーワードがある行を表示する
+/// 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let mut f = File::open(config.filename)?;
     let mut contents = String::new();
@@ -40,13 +42,14 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     }
     Ok(())
 }
-
+///文字列(contents)内の指定文字列（query）が存在する行を返す
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     contents.lines()
         .filter(|line| line.contains(query))
         .collect()
 }
-
+///文字列(contents)内の指定文字列（query）が存在する行を返す
+///大文字小文字の区別をしない
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let query = query.to_lowercase();
     let mut results = Vec::new();
